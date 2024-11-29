@@ -15,22 +15,18 @@ var corsOptions = {
 }
 
 // to parse application/json
-app.use(express.json()); 
+app.use(express.json());
+
 // to serve static files
 app.use(express.static('/home/node/app/static/'));
+
 // to enable cors
 app.use(cors(corsOptions));
 
 app.use('/dispositivo', routerDispositivo)
 
-//=======[ Main module code ]==================================================
 
-app.get('/', function(req, res, next) {
-    res.send({'mensaje': 'Hola DAM'}).status(200);
-});
-
+// Mensaje inicial
 app.listen(PORT, function(req, res) {
     console.log("NodeJS API running correctly");
 });
-
-//=======[ End of file ]=======================================================
