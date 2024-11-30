@@ -1,5 +1,3 @@
-//=======[ Settings, Imports & Data ]==========================================
-
 var PORT    = 3000;
 
 const cors = require('cors');
@@ -11,20 +9,19 @@ const routerDevice = require('./routes/devices')
 
 var corsOptions = {
     origin: '*',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+    optionsSuccessStatus: 200
 }
 
-// to parse application/json
+// Para parsear a application/json
 app.use(express.json());
 
 // to serve static files
 app.use(express.static('/home/node/app/static/'));
 
-// to enable cors
+// Para habilitar cors
 app.use(cors(corsOptions));
 
-//app.use('/devices', routerDevice)
-
+// Rutas
 app.get('/devices', routerDevice.devicesGet)
 app.get('/device/:id', routerDevice.deviceGetData)
 app.get('/device/state/:id', routerDevice.deviceGetStateValv)

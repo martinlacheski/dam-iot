@@ -1,10 +1,10 @@
 <img src="docs/iot.png" alt="logo" title="Smart Cultive" width="60" height="60" />
 
-Web App Smart Home
+App Smart Cultives
 ==================
 
-Este proyecto es una aplicación web fullstack que se ejecuta sobre el ecosistema `Docker`. 
-Utiliza el `Framework Ionic` para realizar el frontend. También tiene un servicio en `NodeJS` que permite ejecutar código en backend y al mismo tiempo disponibilizar el código del cliente web para interactar con el servicio. Además tiene una `base de datos` MySQL que permite interactuar con el backend para guardar y consultar datos, y de manera adicional trae un `administrador` de base de datos para poder administrar la base en caso que lo necesites.
+Este proyecto es una aplicación fullstack que se ejecuta sobre el ecosistema `Docker`. 
+Utiliza el `Framework Ionic` para realizar el frontend. También tiene un servicio en `NodeJS` con `Express` que permite ejecutar código en backend para interactar con el servicio. Además tiene una `base de datos` MySQL que permite interactuar con el backend para guardar y consultar datos, y de manera adicional trae un `administrador` de base de datos para poder administrar la base en caso que lo necesites.
 
 # Introducción
 
@@ -13,7 +13,7 @@ El proyecto corresponde al trabajo final de la asignatura **Desarrollo de Aplica
 El sistema permite:
 - controlar la apertura y cierre de la electroválvula de diferentes dispositivos,
 - ver las mediciones de cada dispositivo y
-- ver el logs de operaciones sobre la electroválvula.
+- ver el registro de operaciones sobre la electroválvula.
 
 
 

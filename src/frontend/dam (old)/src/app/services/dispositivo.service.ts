@@ -11,6 +11,6 @@ export class DispositivoService {
   constructor(private _http: HttpClient) { }
 
   getDispositivos () {
-    return firstValueFrom(this._http.get('http://localhost:8000/dispositivo'))
+    return firstValueFrom(this._http.get('http://localhost:8000/devices'))
   }
 }
