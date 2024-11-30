@@ -7,7 +7,7 @@ const cors = require('cors');
 var express = require('express');
 var app = express();
 var pool = require('./mysql-connector');
-const routerDispositivo = require('./routes/dispositivo')
+const routerDevice = require('./routes/devices')
 
 var corsOptions = {
     origin: '*',
@@ -23,10 +23,15 @@ app.use(express.static('/home/node/app/static/'));
 // to enable cors
 app.use(cors(corsOptions));
 
-app.use('/dispositivo', routerDispositivo)
+//app.use('/devices', routerDevice)
+
+app.get('/devices', routerDevice.devicesGet)
+app.get('/device/:id', routerDevice.deviceGetData)
+app.get('/device/state/:id', routerDevice.deviceGetStateValv)
+app.post('/device/change/', routerDevice.deviceChangeSwitchStatus)
 
 
 // Mensaje inicial
 app.listen(PORT, function(req, res) {
-    console.log("NodeJS API running correctly");
+    console.log(`NodeJS API running correctly on port ${PORT}`);
 });
