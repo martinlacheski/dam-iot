@@ -6,6 +6,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DeviceService } from 'src/app/services/device.service';
 import { Measurement } from 'src/app/interfaces/measurement';
 import { Device } from 'src/app/interfaces/device';
+import { HighlightHumidityDirective } from 'src/app/directives/highlight-humidity.directive';
+import { FormatDatePipe } from 'src/app/pipes/format-date-pipe.pipe';
 
 @Component({
   selector: 'app-measurements',
@@ -13,7 +15,7 @@ import { Device } from 'src/app/interfaces/device';
   styleUrls: ['./measurements.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink, IonList, IonButtons, IonButton, IonIcon,
-    IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonFooter]
+    IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonFooter, HighlightHumidityDirective, FormatDatePipe]
 })
 
 export class MeasurementsPage implements OnInit {

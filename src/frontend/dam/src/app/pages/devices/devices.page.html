@@ -30,10 +30,14 @@
             <strong>Ubicación:</strong> {{ dispositivoUbicacion }}
           </ion-card-content>
           <ion-card-content>
-            <strong>Última lectura:</strong> {{ dispositivoFecha }}
+            <strong>Última lectura:</strong> {{ dispositivoFecha | formatDatePipe}}
           </ion-card-content>
           <ion-card-content>
-            <strong>Valor de humedad:</strong> {{ dispositivoValor }}%
+            <strong>Valor de humedad: </strong>
+            <b>
+              <span humidityDirective valor={{dispositivoValor}}> {{ dispositivoValor }}%</span>
+            </b>
+
           </ion-card-content>
           <ion-card-content>
             <ion-label><strong>Estado electroválvula: </strong></ion-label>
