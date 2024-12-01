@@ -21,18 +21,15 @@ routerDevice.devicesGet = async (req, res) => {
 };
 
 // Obtener el detalle del dispositivo seleccionado
-routerDevice.deviceGetData = async (req, res) => {
-    pool.query(`SELECT 
-            d.nombre, d.ubicacion, m.fecha, m.medicionId, m.valor
-        FROM Dispositivos d 
-        INNER JOIN Mediciones m 
-        WHERE d.dispositivoId = ${req.params.id} 
-        ORDER BY m.medicionId DESC `, function (err, result, fields) {
+routerDevice.getDeviceByID = async (req, res) => {
+    pool.query(`SELECT *  
+        FROM Dispositivos
+        WHERE dispositivoId = ${req.params.id}`, function (err, result, fields) {
         if (err) {
             res.status(404).send('404 - Datos del dispositivo no encontrado');
             return;
         }
-        res.send(result);
+        res.send({ item: result[0] });
     });
 };
 
@@ -47,21 +44,50 @@ routerDevice.deviceGetStateValv = async (req, res) => {
             res.status(404).send('404 - Estado de apertura de la válvula del dispositivo no encontrado');
             return;
         }
-        res.send(result);
+        res.send({ item: result[0] });
     });
+};
+
+routerDevice.deviceGetData = async (req, res) => {
+
+    const deviceId = req.params.id;
+
+    const promiseMeditions = new Promise((resolve, reject) => {
+        pool.query(`SELECT fecha, medicionId, valor FROM Mediciones WHERE dispositivoId = ${deviceId} ORDER BY medicionId DESC`, (err, results) => {
+            if (err) reject(err);
+            resolve(results);
+        });
+    });
+
+    const promiseDevice = new Promise((resolve, reject) => {
+        pool.query(`SELECT * FROM Dispositivos WHERE dispositivoId = ${deviceId}`, (err, results) => {
+            if (err) reject(err);
+            resolve(results);
+        });
+    });
+    
+    try {
+        const [dispositivo, mediciones] = await Promise.all([promiseDevice, promiseMeditions]);
+        const result = { dispositivo: dispositivo[0], mediciones };
+        res.send(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error al obtener las mediciones del dispositivo');
+    }
+
 };
 
 // Actualizar el estado de la electrovalvula del dispositivo seleccionado
 routerDevice.deviceChangeSwitchStatus = async (req, res) => {
     // Validar los datos de entrada
-    const { state, measure, valve, device } = req.body;
+    const {device, valve, state, measure } = req.body;
 
-    if (typeof state !== 'number' || typeof measure !== 'number' || typeof valve !== 'number' || typeof device !== 'number') {
+    if (typeof measure !== 'number' || typeof valve !== 'number' || typeof device !== 'number') {
         return res.status(400).send('Los datos proporcionados no son números');
     }
 
-    if (state !== 0 && state !== 1) {
-        return res.status(400).send('El estado de la válvula debe ser 0 (cerrada) o 1 (abierta)');
+    if (state !== false && state !== true) {
+        return res.status(400).send('El estado de la válvula debe ser FALSE (cerrada) o TRUE (abierta)');
     }
 
     if (measure < 0 || measure > 100) {
@@ -82,40 +108,40 @@ routerDevice.deviceChangeSwitchStatus = async (req, res) => {
             }
 
             // Insertar el registro en Log_Riegos
-            connection.query('INSERT INTO Log_Riegos (apertura, fecha, electrovalvulaId) VALUES (?, NOW(), ?)', 
+            connection.query('INSERT INTO Log_Riegos (apertura, fecha, electrovalvulaId) VALUES (?, NOW(), ?)',
                 [state, valve], (err, result) => {
-                if (err) {
-                    return connection.rollback(() => {
-                        connection.release();
-                        return res.status(409).send('Error al insertar en Log_Riegos: ' + err.message);
-                    });
-                }
-
-                // Insertar el registro en Mediciones
-                connection.query('INSERT INTO Mediciones (fecha, valor, dispositivoId) VALUES (NOW(), ?, ?)', 
-                    [measure, device], (err, result) => {
                     if (err) {
                         return connection.rollback(() => {
                             connection.release();
-                            return res.status(409).send('Error al insertar en Mediciones: ' + err.message);
+                            return res.status(409).send('Error al insertar en Log_Riegos: ' + err.message);
                         });
                     }
 
-                    // Finalizar la transacción. Verificar si hubo error en la transacción
-                    connection.commit((err) => {
-                        if (err) {
-                            return connection.rollback(() => {
-                                connection.release();
-                                return res.status(500).send('Error al confirmar la transacción');
-                            });
-                        }
+                    // Insertar el registro en Mediciones
+                    connection.query('INSERT INTO Mediciones (fecha, valor, dispositivoId) VALUES (NOW(), ?, ?)',
+                        [measure, device], (err, result) => {
+                            if (err) {
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    return res.status(409).send('Error al insertar en Mediciones: ' + err.message);
+                                });
+                            }
 
-                        // Enviar los datos
-                        connection.release();
-                        return res.send('Datos insertados correctamente');
-                    });
+                            // Finalizar la transacción. Verificar si hubo error en la transacción
+                            connection.commit((err) => {
+                                if (err) {
+                                    return connection.rollback(() => {
+                                        connection.release();
+                                        return res.status(500).send('Error al confirmar la transacción');
+                                    });
+                                }
+
+                                // Enviar los datos
+                                connection.release();
+                                return res.status(200).send('Datos insertados correctamente');
+                            });
+                        });
                 });
-            });
         });
     });
 };

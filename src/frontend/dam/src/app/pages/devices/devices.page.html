@@ -1,13 +1,58 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>devices</ion-title>
+    <ion-buttons>
+      <ion-title>Dispositivo</ion-title>
+      <ion-button [routerLink]="['/main']">
+        Volver
+        <!--<ion-icon name="home-outline"></ion-icon>-->
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">devices</ion-title>
+      <ion-title size="large">Dispositivo</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-grid>
+    <ion-row *ngIf="this.dispositivoId !== null">
+      <ion-col>
+        <ion-card>
+          <ion-card-content>
+            <strong>ID Dispositivo: {{ dispositivoId }}</strong>
+          </ion-card-content>
+          <ion-card-content>
+            <strong>Nombre:</strong> {{ dispositivoNombre }}
+          </ion-card-content>
+          <ion-card-content>
+            <strong>Ubicación:</strong> {{ dispositivoUbicacion }}
+          </ion-card-content>
+          <ion-card-content>
+            <strong>Última lectura:</strong> {{ dispositivoFecha }}
+          </ion-card-content>
+          <ion-card-content>
+            <strong>Valor de humedad:</strong> {{ dispositivoValor }}%
+          </ion-card-content>
+          <ion-card-content>
+            <ion-label><strong>Estado electroválvula: </strong></ion-label>
+
+            <ion-toggle [(ngModel)]="dispositivoEstado" (ionChange)="onToggleChange()" color="primary"></ion-toggle>
+          </ion-card-content>
+          <ion-card-content>
+            <!--<ion-button size="small" [routerLink]="['/device/data', device.dispositivoId]">-->
+            <ion-button size="small" [routerLink]="['/device/data', this.dispositivoId]">
+              Ver mediciones
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-footer>
+    <ion-toolbar>
+      <ion-title>Desarrollado por Martin Lacheski</ion-title>
+    </ion-toolbar>
+  </ion-footer>
 </ion-content>

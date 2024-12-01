@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-title *ngIf="this.device !== null">Mediciones Dispositivo {{ this.device.nombre }}</ion-title>
+      <ion-button [routerLink]="['/device', this.dispositivoId]">
+        Volver
+        <!--<ion-icon name="home-outline"></ion-icon>-->
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-card *ngFor="let measurement of measurements">
+      <ion-card-header>
+        <ion-card-title> Humedad: {{measurement.valor}}% </ion-card-title>
+        <ion-card-subtitle> Fecha: {{measurement.fecha}} </ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+  </ion-list>
+  <ion-footer>
+    <ion-toolbar>
+      <div class="footer-text">
+        Desarrollado por Martin Lacheski
+      </div>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>

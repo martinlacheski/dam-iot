@@ -3,4 +3,5 @@ export interface Device {
     nombre: string;      
     ubicacion: string;   
     electrovalvulaId: number;  
+    ElectroValvula: string;  
   }

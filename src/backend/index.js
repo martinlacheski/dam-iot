@@ -23,8 +23,9 @@ app.use(cors(corsOptions));
 
 // Rutas
 app.get('/devices', routerDevice.devicesGet)
-app.get('/device/:id', routerDevice.deviceGetData)
+app.get('/device/:id', routerDevice.getDeviceByID)
 app.get('/device/state/:id', routerDevice.deviceGetStateValv)
+app.get('/device/data/:id', routerDevice.deviceGetData)
 app.post('/device/change/', routerDevice.deviceChangeSwitchStatus)
 
 

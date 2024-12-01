@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonButton, IonCard, IonIcon, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonFooter } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonButton, IonCard, IonIcon, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonFooter } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
 import { DeviceService } from 'src/app/services/device.service';
 import { Device } from 'src/app/interfaces/device';
@@ -13,7 +13,7 @@ import { addIcons } from 'ionicons';
   templateUrl: './main.page.html',
   styleUrls: ['./main.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink, IonGrid, IonRow, IonCol, IonButton, IonIcon,
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink, IonList, IonButton, IonIcon,
     IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonFooter]
 })
 export class MainPage implements OnInit {
@@ -36,9 +36,4 @@ export class MainPage implements OnInit {
       console.error('Error - ', error);
     }
   }
-
-  onCardClick(id: string) {
-    console.log("dispositivo_id: " + id);
-  }
-
 }
