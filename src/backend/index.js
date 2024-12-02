@@ -1,4 +1,4 @@
-var PORT    = 3000;
+var PORT = 3000;
 
 const cors = require('cors');
 

@@ -9,6 +9,7 @@ import { firstValueFrom } from 'rxjs';
 
 export class DeviceService {
 
+  // Declarar las URL's de los Endpoints.
   private urlApiGetDevices = 'http://localhost:8000/devices';
   private urlApiGetDevice = 'http://localhost:8000/device/';
   private urlApiGetStateValvDevice = 'http://localhost:8000/device/state/';
@@ -60,7 +61,7 @@ export class DeviceService {
     }
   }
 
-  // Guardar cambio de estado y medición del dispositivo
+  // Guardar cambio de estado (log de riego) y medición del dispositivo
   async postChangeDeviceState(state: boolean, measurement: number, valve: number, device: number): Promise<any> {
     const dataToSend = {
       device: device,
@@ -75,7 +76,6 @@ export class DeviceService {
       return error;
     }
   }
-
-
+  
   constructor() { }
 }

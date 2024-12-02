@@ -8,6 +8,8 @@ import { Measurement } from 'src/app/interfaces/measurement';
 import { Device } from 'src/app/interfaces/device';
 import { HighlightHumidityDirective } from 'src/app/directives/highlight-humidity.directive';
 import { FormatDatePipe } from 'src/app/pipes/format-date-pipe.pipe';
+import { addIcons } from 'ionicons';
+import * as ionIcons from 'ionicons/icons';
 
 @Component({
   selector: 'app-measurements',
@@ -20,15 +22,18 @@ import { FormatDatePipe } from 'src/app/pipes/format-date-pipe.pipe';
 
 export class MeasurementsPage implements OnInit {
 
+  // Inicializar variables
   dispositivoId: string | null = null;
+  // Utilizar las interfaces
   device: Device | null = null;
   measurements: Measurement[] = [];
 
   constructor(
     private deviceService: DeviceService,
     private actRoute: ActivatedRoute,
-  ) { }
+  ) {addIcons(ionIcons);}
 
+  // Al cargar la pagina buscar las medidiciones del dispositivo
   ngOnInit() {
     this.searchDeviceData();
   }
@@ -40,6 +45,7 @@ export class MeasurementsPage implements OnInit {
       if (this.dispositivoId) {
         this.deviceService.getDeviceData(Number(this.dispositivoId)).then((res) => {
           if (res) {
+            // asignar valor a las variables
             this.device = res.dispositivo;
             this.measurements = res.mediciones;
           }

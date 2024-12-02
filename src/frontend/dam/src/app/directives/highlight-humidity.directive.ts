@@ -4,6 +4,8 @@ import { Directive, ElementRef, Renderer2, Input, OnInit } from '@angular/core';
   selector: '[humidityDirective]',
   standalone: true
 })
+
+// Directiva para cambiar el color del fondo según el valor de humedad
 export class HighlightHumidityDirective implements OnInit {
 
   @Input() valor!: string;
@@ -11,10 +13,10 @@ export class HighlightHumidityDirective implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.valor)
      this.renderer.setStyle(this.referencia.nativeElement, 'backgroundColor', this.getColor(Number(this.valor)));  
   }
 
+  // Establecer el color del fondo según los siguientes parámetros
   getColor(value: number): string {
     if (value <= 60) {
       return 'lightblue'; // Humedad baja

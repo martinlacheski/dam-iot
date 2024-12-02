@@ -7,6 +7,8 @@ import { DeviceService } from 'src/app/services/device.service';
 import { ToastController } from '@ionic/angular';
 import { FormatDatePipe } from 'src/app/pipes/format-date-pipe.pipe';
 import { HighlightHumidityDirective } from 'src/app/directives/highlight-humidity.directive';
+import { addIcons } from 'ionicons';
+import * as ionIcons from 'ionicons/icons';
 
 
 @Component({
@@ -21,6 +23,7 @@ import { HighlightHumidityDirective } from 'src/app/directives/highlight-humidit
 
 export class DevicesPage implements OnInit {
 
+  // Inicializar variables
   dispositivoId: string | null = null;
   dispositivoNombre: string = '';
   dispositivoFecha: Date = new Date();
@@ -34,8 +37,9 @@ export class DevicesPage implements OnInit {
     private deviceService: DeviceService,
     private actRoute: ActivatedRoute,
     private toastController: ToastController,
-  ) { }
+  ) {addIcons(ionIcons);}
 
+  // Al cargar la pagina buscar el dispositivo
   ngOnInit() {
     this.searchDevice();
   }
@@ -47,13 +51,13 @@ export class DevicesPage implements OnInit {
       if (this.dispositivoId) {
         this.deviceService.getDeviceInfo(Number(this.dispositivoId)).then((res) => {
           if (res) {
+            // asignar valor a las variables
             const { item } = res;
             this.dispositivoId = item.dispositivoId;
             this.dispositivoNombre = item.nombre;
             this.dispositivoUbicacion = item.ubicacion;
             this.dispositivoFecha = new Date();
             this.dispositivoElectroValvulaId = item.electrovalvulaId;
-            //this.dispositivoValor = Math.floor(Math.random() * 100);
           }
           this.searchValveState();
         }).catch(error => {
@@ -69,6 +73,7 @@ export class DevicesPage implements OnInit {
       if (this.dispositivoElectroValvulaId) {
         this.deviceService.getStateValve(Number(this.dispositivoElectroValvulaId)).then((res) => {
           const { item } = res;
+          // asignar el valor de la valvula de apertura
           if (item) {
             this.dispositivoEstado = item.apertura;
           } else {
@@ -87,20 +92,23 @@ export class DevicesPage implements OnInit {
     const measure = this.dispositivoValor;
     const valve = this.dispositivoElectroValvulaId;
     const device = this.dispositivoId || 0;
+    // Validar las variables
     if (measure >= 0 && measure <= 100) {
       if (state === false || state === true) {
         if (valve >= 0) {
           if (Number(device) >= 0) {
             try {
+              // Ejecutar metodo para guardar la medicion y el registro de Log.
               await this.deviceService.postChangeDeviceState(state, measure, valve, Number(device));
 
+              // Mostrar mensaje de ejecución correcta
               const toast = await this.toastController.create({
                 message: 'Datos insertados correctamente',
                 duration: 2000,
                 position: 'top'
               });
               await toast.present();
-              this.searchDevice();
+              this.searchDevice();              
             } catch (error) {
               console.error('Error al cambiar el estado:', error);
             }
@@ -109,5 +117,4 @@ export class DevicesPage implements OnInit {
       }
     }
   }
-
 }

@@ -33,7 +33,7 @@ routerDevice.getDeviceByID = async (req, res) => {
     });
 };
 
-// Obtener el estado de la valvula del dispositivo seleccionado en Log_Riegos
+// Obtener el estado de la valvula del dispositivo seleccionado en la tabla Log_Riegos
 routerDevice.deviceGetStateValv = async (req, res) => {
     pool.query(`SELECT apertura
         FROM Log_Riegos
@@ -48,10 +48,12 @@ routerDevice.deviceGetStateValv = async (req, res) => {
     });
 };
 
+// Obtener el listado de mediciones y los datos de un dispositivo
 routerDevice.deviceGetData = async (req, res) => {
 
     const deviceId = req.params.id;
 
+    // Consulta de mediciones del dispositivo
     const promiseMeditions = new Promise((resolve, reject) => {
         pool.query(`SELECT fecha, medicionId, valor FROM Mediciones WHERE dispositivoId = ${deviceId} ORDER BY medicionId DESC`, (err, results) => {
             if (err) reject(err);
@@ -59,6 +61,7 @@ routerDevice.deviceGetData = async (req, res) => {
         });
     });
 
+    // Consulta de datos del dispositivo
     const promiseDevice = new Promise((resolve, reject) => {
         pool.query(`SELECT * FROM Dispositivos WHERE dispositivoId = ${deviceId}`, (err, results) => {
             if (err) reject(err);
@@ -66,6 +69,7 @@ routerDevice.deviceGetData = async (req, res) => {
         });
     });
     
+    // Ejecutar las dos consultas
     try {
         const [dispositivo, mediciones] = await Promise.all([promiseDevice, promiseMeditions]);
         const result = { dispositivo: dispositivo[0], mediciones };
@@ -94,11 +98,13 @@ routerDevice.deviceChangeSwitchStatus = async (req, res) => {
         return res.status(400).send('La medición de humedad debe estar entre 0 y 100');
     }
 
+    // Conectarse a la base de datos
     pool.getConnection((err, connection) => {
         if (err) {
             return res.status(500).send('Error al conectar a la base de datos');
         }
 
+        // Iniciar transacción
         connection.beginTransaction((err) => {
             if (err) {
                 return connection.rollback(() => {

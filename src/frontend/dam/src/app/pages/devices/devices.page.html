@@ -4,7 +4,7 @@
       <ion-title>Dispositivo</ion-title>
       <ion-button [routerLink]="['/main']">
         Volver
-        <!--<ion-icon name="home-outline"></ion-icon>-->
+        <ion-icon name="return-up-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -17,6 +17,7 @@
     </ion-toolbar>
   </ion-header>
   <ion-grid>
+    <!-- Se Utiliza la directiva estructural ngIf para verificar que el id del dispositivo no sea nulo, para cargar los campos -->
     <ion-row *ngIf="this.dispositivoId !== null">
       <ion-col>
         <ion-card>
@@ -30,24 +31,27 @@
             <strong>Ubicación:</strong> {{ dispositivoUbicacion }}
           </ion-card-content>
           <ion-card-content>
+            <!-- Se utiliza la directiva pipe custom para establecer el formato de fecha -->
             <strong>Última lectura:</strong> {{ dispositivoFecha | formatDatePipe}}
           </ion-card-content>
           <ion-card-content>
             <strong>Valor de humedad: </strong>
             <b>
+              <!-- Se utiliza la directiva de atributo custom para establecer el color del fondo en base al valor de humedad -->
               <span humidityDirective valor={{dispositivoValor}}> {{ dispositivoValor }}%</span>
             </b>
 
           </ion-card-content>
           <ion-card-content>
             <ion-label><strong>Estado electroválvula: </strong></ion-label>
-
+            <!-- Se utiliza el metodo onToggleChange() para registrar la medición y el log de riego -->
             <ion-toggle [(ngModel)]="dispositivoEstado" (ionChange)="onToggleChange()" color="primary"></ion-toggle>
           </ion-card-content>
           <ion-card-content>
-            <!--<ion-button size="small" [routerLink]="['/device/data', device.dispositivoId]">-->
+            <!-- Se direcciona a la pagina de datos del dispositivo con el ID del dispositivo actual -->
             <ion-button size="small" [routerLink]="['/device/data', this.dispositivoId]">
               Ver mediciones
+              <ion-icon name="stats-chart-outline"></ion-icon>
             </ion-button>
           </ion-card-content>
         </ion-card>
