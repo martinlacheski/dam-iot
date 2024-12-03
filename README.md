@@ -60,7 +60,7 @@ También es posible realizar `Ctrl-C` desde el shell o terminal donde se encuent
 
 </details>
 
-### Acceder a la aplicación
+## Acceder a la aplicación
 
 Para acceder al cliente web ingresar a a la URL [http://localhost:8100/](http://localhost:8100/) y para acceder al admin de la DB acceder a [http://localhost:8001/](http://localhost:8001/). 
 
