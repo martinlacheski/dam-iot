@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonButtons, IonButton, IonCard, IonIcon, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonFooter } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonButtons, IonButton, IonCard, IonIcon, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonFooter } from '@ionic/angular/standalone';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DeviceService } from 'src/app/services/device.service';
 import { Measurement } from 'src/app/interfaces/measurement';
@@ -16,8 +16,8 @@ import * as ionIcons from 'ionicons/icons';
   templateUrl: './measurements.page.html',
   styleUrls: ['./measurements.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink, IonList, IonButtons, IonButton, IonIcon,
-    IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonFooter, HighlightHumidityDirective, FormatDatePipe]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink, IonGrid, IonRow, IonCol, IonButtons, IonButton, 
+    IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonFooter, HighlightHumidityDirective, FormatDatePipe]
 })
 
 export class MeasurementsPage implements OnInit {

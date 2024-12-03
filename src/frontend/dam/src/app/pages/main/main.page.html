@@ -10,21 +10,27 @@
       <ion-title size="large">Smart Cultive App</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-list>
-    <!-- Se utiliza la directiva estructural ngFor para cargar todos los dispositivos de la base de datos -->
-    <ion-card *ngFor="let device of devices">
-      <ion-card-header>
-        <ion-card-title>Nombre: {{device.nombre}} </ion-card-title>
-        <ion-card-subtitle> Ubicación: {{device.ubicacion}} </ion-card-subtitle>
-        <ion-card-subtitle> Electroválvula: {{device.ElectroValvula}} </ion-card-subtitle>
-        <!-- Se direcciona a la pagina del dispositivo con el ID actual -->
-        <ion-button size="small" [routerLink]="['/device', device.dispositivoId]">
-          Ver más
-          <ion-icon name="add-outline"></ion-icon>
-        </ion-button>
-      </ion-card-header>
-    </ion-card>
-  </ion-list>
+  <ion-grid>
+    <ion-row>
+      <!-- Se utiliza las propiedades CSS para poder hacer la grilla de dispositivos de manera responsiva dependiendo del ancho variable de la pantalla. 
+      y para cargar todos los dispositivos de la base de datos Se utiliza la directiva estructural ngFor -->
+      <ion-col size="12" size-xs="12" size-sm="6" size-md="4" size-lg="3" *ngFor="let device of devices">
+        <ion-card >
+          <ion-card-header>
+            <ion-card-title>Nombre: {{device.nombre}} </ion-card-title>
+            <ion-card-subtitle> Ubicación: {{device.ubicacion}} </ion-card-subtitle>
+            <ion-card-subtitle> Electroválvula: {{device.ElectroValvula}} </ion-card-subtitle>
+            <!-- Se direcciona a la pagina del dispositivo con el ID actual -->
+            <ion-button size="small" [routerLink]="['/device', device.dispositivoId]">
+              Ver más
+              <ion-icon name="add-outline"></ion-icon>
+            </ion-button>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   <ion-footer>
     <ion-toolbar>
       <ion-title>Desarrollado por Martin Lacheski</ion-title>

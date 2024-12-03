@@ -6,33 +6,37 @@
       <!-- Se direcciona a la pagina del dispositivo con el ID actual -->
       <ion-button [routerLink]="['/device', this.dispositivoId]">
         Volver
-        <ion-icon name="return-up-back-outline" ></ion-icon>
+        <ion-icon name="return-up-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
-  <ion-list>
-    <!-- Se utiliza la directiva estructural ngFor para cargar todas las mediciones  de la base de datos del dispositivo -->
-    <ion-card *ngFor="let measurement of measurements">
-      <ion-card-header>
-        <ion-card-title>
-          <strong>Valor de humedad: </strong>
-          <b>
-            <!-- Se utiliza la directiva de atributo custom para establecer el color del fondo en base al valor de humedad -->
-            <span humidityDirective valor={{measurement.valor}}> {{ measurement.valor }}%</span>
-          </b>
-        </ion-card-title>
-        <!-- Se utiliza la directiva pipe custom para establecer el formato de fecha -->
-        <ion-card-subtitle> Fecha: {{measurement.fecha | formatDatePipe}} </ion-card-subtitle>
-      </ion-card-header>
-    </ion-card>
-  </ion-list>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <!-- Se utiliza la directiva estructural ngFor para cargar todas las mediciones  de la base de datos del dispositivo -->
+        <ion-card *ngFor="let measurement of measurements">
+          <ion-card-header>
+            <ion-card-title>
+              <strong>Valor de humedad: </strong>
+              <b>
+                <!-- Se utiliza la directiva de atributo custom para establecer el color del fondo en base al valor de humedad -->
+                <span humidityDirective valor={{measurement.valor}}> {{ measurement.valor }}%</span>
+              </b>
+            </ion-card-title>
+            <!-- Se utiliza la directiva pipe custom para establecer el formato de fecha -->
+            <ion-card-subtitle> Fecha: {{measurement.fecha | formatDatePipe}} </ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-footer>
     <ion-toolbar>
-      <div class="footer-text">
+      <ion-title>
         Desarrollado por Martin Lacheski
-      </div>
+      </ion-title>
     </ion-toolbar>
   </ion-footer>
 </ion-content>
